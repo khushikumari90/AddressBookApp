@@ -10,10 +10,9 @@ import com.addressbook.addressbook.model.Contact;
 @Service
 public class AddressBookService {
 
-    // List to store all contacts
     private List<Contact> contacts = new ArrayList<>();
 
-    // UC1: Add single contact
+    // Add single contact (UC1)
     public String createContact(ContactDTO contactDTO) {
         Contact contact = new Contact(contactDTO);
         contacts.add(contact);
@@ -23,5 +22,23 @@ public class AddressBookService {
     // Get all contacts
     public List<Contact> getAllContacts() {
         return contacts;
+    }
+
+    // UC3: Update contact by first name
+    public String updateContact(String firstName, ContactDTO updatedContactDTO) {
+        for (Contact contact : contacts) {
+            if (contact.getFirstName().equalsIgnoreCase(firstName)) {
+                // Update all fields
+                contact.setLastName(updatedContactDTO.getLastName());
+                contact.setEmail(updatedContactDTO.getEmail());
+                contact.setPhoneNumber(updatedContactDTO.getPhoneNumber());
+                contact.setAddress(updatedContactDTO.getAddress());
+                contact.setCity(updatedContactDTO.getCity());
+                contact.setState(updatedContactDTO.getState());
+                contact.setZip(updatedContactDTO.getZip());
+                return "Contact updated successfully";
+            }
+        }
+        return "Contact not found with first name: " + firstName;
     }
 }

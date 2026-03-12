@@ -26,4 +26,12 @@ public class AddressBookController {
     public List<Contact> getContacts() {
         return service.getAllContacts();
     }
+
+    // UC3: Update contact by first name
+    @PutMapping("/contacts/{firstName}")
+    public String updateContact(
+            @PathVariable String firstName,
+            @RequestBody ContactDTO contactDTO) {
+        return service.updateContact(firstName, contactDTO);
+    }
 }
