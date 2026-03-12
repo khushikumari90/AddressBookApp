@@ -1,6 +1,8 @@
 package com.addressbook.addressbook.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import com.addressbook.addressbook.dto.ContactDTO;
 import com.addressbook.addressbook.model.Contact;
@@ -10,19 +12,18 @@ import com.addressbook.addressbook.service.AddressBookService;
 @RequestMapping("/addressbook")
 public class AddressBookController {
 
-    private final AddressBookService service;
+    @Autowired
+    private AddressBookService service;
 
-    public AddressBookController(AddressBookService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "Welcome to Address Book";
-    }
-
-    @PostMapping("/create")
-    public Contact createContact(@RequestBody ContactDTO contactDTO) {
+    // Add single contact
+    @PostMapping("/contacts")
+    public String createContact(@RequestBody ContactDTO contactDTO) {
         return service.createContact(contactDTO);
+    }
+
+    // Get all contacts
+    @GetMapping("/contacts")
+    public List<Contact> getContacts() {
+        return service.getAllContacts();
     }
 }
