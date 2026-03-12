@@ -2,6 +2,7 @@ package com.addressbook.addressbook.service;
 
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.addressbook.addressbook.dto.ContactDTO;
@@ -12,7 +13,7 @@ public class AddressBookService {
 
     private List<Contact> contacts = new ArrayList<>();
 
-    // Add single contact (UC1)
+    // UC1: Add single contact
     public String createContact(ContactDTO contactDTO) {
         Contact contact = new Contact(contactDTO);
         contacts.add(contact);
@@ -28,7 +29,6 @@ public class AddressBookService {
     public String updateContact(String firstName, ContactDTO updatedContactDTO) {
         for (Contact contact : contacts) {
             if (contact.getFirstName().equalsIgnoreCase(firstName)) {
-                // Update all fields
                 contact.setLastName(updatedContactDTO.getLastName());
                 contact.setEmail(updatedContactDTO.getEmail());
                 contact.setPhoneNumber(updatedContactDTO.getPhoneNumber());
@@ -37,6 +37,19 @@ public class AddressBookService {
                 contact.setState(updatedContactDTO.getState());
                 contact.setZip(updatedContactDTO.getZip());
                 return "Contact updated successfully";
+            }
+        }
+        return "Contact not found with first name: " + firstName;
+    }
+
+    // UC4: Delete contact by first name (API)
+    public String deleteContactByName(String firstName) {
+        Iterator<Contact> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            Contact contact = iterator.next();
+            if (contact.getFirstName().equalsIgnoreCase(firstName)) {
+                iterator.remove();
+                return "Contact deleted successfully: " + firstName;
             }
         }
         return "Contact not found with first name: " + firstName;

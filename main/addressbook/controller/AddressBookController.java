@@ -15,7 +15,7 @@ public class AddressBookController {
     @Autowired
     private AddressBookService service;
 
-    // Add single contact
+    // UC1: Add single contact
     @PostMapping("/contacts")
     public String createContact(@RequestBody ContactDTO contactDTO) {
         return service.createContact(contactDTO);
@@ -33,5 +33,11 @@ public class AddressBookController {
             @PathVariable String firstName,
             @RequestBody ContactDTO contactDTO) {
         return service.updateContact(firstName, contactDTO);
+    }
+
+    // UC4: Delete contact by first name (API)
+    @DeleteMapping("/contacts/{firstName}")
+    public String deleteContact(@PathVariable String firstName) {
+        return service.deleteContactByName(firstName);
     }
 }
